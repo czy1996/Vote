@@ -8,8 +8,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: () => import('@/components/HelloWorld'),
+      redirect: '/login',
+    },
+    {
+      path: '/login',
+      component: () => import('@/components/Page/Login'),
     }
   ]
 })
