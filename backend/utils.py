@@ -10,3 +10,10 @@ def log(*args, **kwargs):
     with open('log.gua.txt', 'a', encoding='utf-8') as f:
         print(dt, *args, file=f, **kwargs)
     print(dt, *args, **kwargs)
+
+
+def gen_session_id():
+    """生成长度为32位的hex字符串，用于第三方session的key"""
+    import uuid
+    session_id = str(uuid.uuid4())
+    return session_id
