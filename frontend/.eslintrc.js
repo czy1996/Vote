@@ -4,7 +4,7 @@ module.exports = {
   root: true,
   parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module'
+    sourceType: 'module',
   },
   env: {
     browser: true,
@@ -13,18 +13,17 @@ module.exports = {
   extends: 'standard',
   // required to lint *.vue files
   plugins: [
-    'html'
+    'html',
   ],
   // add your custom rules here
-
-  semi: ["error", "never"],
-
-  'comma-dangle': ["error", "always-multiline"],
 
   rules: {
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    semi: ['error', 'never'],
+    'comma-dangle': ['error', 'always-multiline'],
+
+  },
 }
