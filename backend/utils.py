@@ -1,4 +1,6 @@
 import time
+import json
+from flask import Response
 
 
 def log(*args, **kwargs):
@@ -17,3 +19,7 @@ def gen_session_id():
     import uuid
     session_id = str(uuid.uuid4())
     return session_id
+
+
+def json_response(obj):
+    return Response(json.dumps(obj, ensure_ascii=False, indent=4), mimetype='application/json')

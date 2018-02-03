@@ -1,5 +1,7 @@
 from flask import Flask, request
-from utils import log
+from utils import log, json_response
+from model.User import User
+from model.Session import Session
 
 app = Flask(__name__)
 
@@ -12,8 +14,11 @@ def hello_world():
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
-    log(data)
-    return 'shit'
+    if User.validate_login(data):
+        session = Session.new(User.get_by_name(data['username']))
+        return session.response()
+    else:
+        return json_response({'status': 'fail'})
 
 
 if __name__ == '__main__':

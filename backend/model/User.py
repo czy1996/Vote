@@ -16,6 +16,10 @@ class User(BaseDocument):
     def get_by_id(cls, _id):
         return cls.objects(Id=_id).first()
 
+    @classmethod
+    def validate_login(cls, data):
+        user = cls.get_by_name(data['username'])
+        return user is not None and user.password == data['password']
 
 def test_user():
     user = User(username='chen', password='123')
