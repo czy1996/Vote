@@ -1,5 +1,6 @@
 <template>
   <v-app>
+
     <v-navigation-drawer
       persistent
       :mini-variant="miniVariant"
@@ -14,6 +15,7 @@
           <v-list-tile
             :to="item.path"
             exact
+            ripple
           >
             <v-list-tile-action>
               <v-icon v-html="item.icon"></v-icon>
@@ -36,7 +38,9 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-      <router-view/>
+      <main>
+        <router-view/>
+      </main>
     </v-content>
     <v-footer :fixed="fixed" app>
       <span>&copy; 2018</span>
@@ -49,7 +53,7 @@
     data () {
       return {
         clipped: false,
-        drawer: true,
+        drawer: null,
         fixed: false,
         items: [{
           icon: 'bubble_chart',
