@@ -2,6 +2,13 @@
   <v-container grid-list-md>
     <v-layout row justify-center>
       <v-flex md8 xs12>
+        <v-alert
+          :color="alertColor"
+          :icon="alertIcon"
+          :value="isAlert"
+          transition="scale-transition"
+        >{{alertMessage}}
+        </v-alert>
         <v-subheader>登录</v-subheader>
         <v-card>
           <v-card-text>
@@ -36,7 +43,8 @@
               <v-btn
                 @click="clear"
                 flat
-              >clear</v-btn>
+              >clear
+              </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -57,6 +65,7 @@
 <script>
   import {validationMixin} from 'vuelidate'
   import {required} from 'vuelidate/lib/validators'
+  import loin from '../../api/login'
 
   export default {
     name: 'login',
@@ -65,26 +74,55 @@
       username: {required},
       password: {required},
     },
+
     data () {
       return {
         drawerType: '',
         passwordVisible: false,
         username: '',
         password: '',
+        isAlert: false,
+        loginStatus: 'fail',
       }
     },
     computed: {
       passwordIcon () {
         return this.passwordVisible ? 'visibility' : 'visibility_off'
       },
+
       passwordType () {
         return this.passwordVisible ? 'text' : 'password'
       },
+
       usernameErrors () {
         const errors = []
         if (!this.$v.username.$dirty) return errors
         !this.$v.username.required && errors.push('Name is required.')
         return errors
+      },
+
+      alertColor () {
+        if (this.loginStatus === 'success') {
+          return 'success'
+        } else {
+          return 'error'
+        }
+      },
+
+      alertIcon () {
+        if (this.loginStatus === 'success') {
+          return 'check_circle'
+        } else {
+          return 'warning'
+        }
+      },
+
+      alertMessage () {
+        if (this.loginStatus === 'success') {
+          return '登录成功'
+        } else {
+          return '登录失败, 请检查用户名密码'
+        }
       },
     },
 
@@ -96,15 +134,25 @@
       clear () {
         this.username = ''
         this.password = ''
+        this.isAlert = false
         this.$v.$reset()
       },
 
       submit () {
+        this.$log('submit clicked')
+        loin.login({
+          username: this.username,
+          password: this.password,
+        }).then(data => {
+          this.$log(data)
+          this.loginStatus = data.status
+          this.isAlert = true
+        })
       },
     },
 
     mounted () {
-      console.log(this.$v.$invalid)
+      // console.log(this.$v.$invalid)
     },
   }
 </script>
