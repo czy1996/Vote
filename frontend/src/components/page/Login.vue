@@ -5,30 +5,38 @@
         <v-subheader>登录</v-subheader>
         <v-card>
           <v-card-text>
-            <v-form v-model="valid">
+            <v-form>
               <v-text-field
                 label="用户名"
                 v-model="username"
-                :rules="nameRules"
+                @input="$v.username.$touch()"
+                @blur="$v.username.$touch()"
+                :error-messages="usernameErrors"
                 :counter="10"
                 required
               ></v-text-field>
               <v-text-field
                 label="密码"
                 v-model="password"
-                :rules="emailRules"
                 :append-icon="passwordIcon"
                 :append-icon-cb="switchPassWordIcon"
+                @input="$v.password.$touch()"
+                @blur="$v.password.$touch()"
                 :type="passwordType"
                 required
               ></v-text-field>
               <v-btn
                 @click="submit"
-                :disabled="!valid"
+                :disabled="$v.$invalid"
+                flat
+                color="primary"
               >
                 submit
               </v-btn>
-              <v-btn @click="clear">clear</v-btn>
+              <v-btn
+                @click="clear"
+                flat
+              >clear</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -38,7 +46,7 @@
       <v-flex md8 xs12>
         <v-card>
           <v-card-text>
-            <h1>Title</h1>
+            <h1>{{ $v.username.$dirty}}</h1>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -47,12 +55,18 @@
 </template>
 
 <script>
-  import { val}
+  import {validationMixin} from 'vuelidate'
+  import {required} from 'vuelidate/lib/validators'
+
   export default {
     name: 'login',
+    mixins: [validationMixin],
+    validations: {
+      username: {required},
+      password: {required},
+    },
     data () {
       return {
-        valid: true,
         drawerType: '',
         passwordVisible: false,
         username: '',
@@ -66,6 +80,12 @@
       passwordType () {
         return this.passwordVisible ? 'text' : 'password'
       },
+      usernameErrors () {
+        const errors = []
+        if (!this.$v.username.$dirty) return errors
+        !this.$v.username.required && errors.push('Name is required.')
+        return errors
+      },
     },
 
     methods: {
@@ -76,7 +96,15 @@
       clear () {
         this.username = ''
         this.password = ''
+        this.$v.$reset()
       },
+
+      submit () {
+      },
+    },
+
+    mounted () {
+      console.log(this.$v.$invalid)
     },
   }
 </script>
