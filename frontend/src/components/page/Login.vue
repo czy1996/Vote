@@ -31,6 +31,7 @@
                 @blur="$v.password.$touch()"
                 :type="passwordType"
                 required
+                @keyup.enter="submit"
               ></v-text-field>
               <v-btn
                 @click="submit"
@@ -85,6 +86,7 @@
         loginStatus: 'fail',
       }
     },
+
     computed: {
       passwordIcon () {
         return this.passwordVisible ? 'visibility' : 'visibility_off'

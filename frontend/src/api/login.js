@@ -3,7 +3,7 @@ import store from '../store/store'
 import * as types from '../store/types'
 
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: '/api/auth',
 })
 
 class Login {
