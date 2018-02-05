@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md>
     <v-layout row justify-center>
-      <v-flex md8 xs12>
+      <v-flex md7 xs12>
         <v-alert
           :color="alertColor"
           :icon="alertIcon"
