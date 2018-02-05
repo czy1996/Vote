@@ -9,6 +9,7 @@ const instance = axios.create({
 class Login {
   constructor () {
     this.url_login = '/login'
+    this.url_logout = '/logout'
   }
 
   login (data) {
@@ -18,6 +19,18 @@ class Login {
           if (data.status === 'success') {
             store.commit(types.LOGIN, data.session_id)
           }
+          resolve(data)
+        },
+        err => reject(err),
+      )
+    })
+  }
+
+  logout () {
+    return new Promise((resolve, reject) => {
+      instance.get(this.url_logout).then(
+        ({data}) => {
+          store.commit(types.LOGOUT)
           resolve(data)
         },
         err => reject(err),

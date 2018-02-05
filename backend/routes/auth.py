@@ -4,6 +4,8 @@ from flask import (Blueprint,
 from model.User import User
 from model.Session import Session
 
+from . import current_user
+
 from utils import (json_response, )
 
 main = Blueprint('login', __name__)
@@ -17,3 +19,9 @@ def login():
         return session.response()
     else:
         return json_response({'status': 'fail'})
+
+
+@main.route('/logout')
+def logout():
+    user = current_user()
+    return json_response({'status': 'default'})

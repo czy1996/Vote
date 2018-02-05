@@ -33,6 +33,8 @@ class Session(BaseDocument):
 
     @classmethod
     def current_user(cls, session_id):
+        if session_id is None:
+            return None
         user = cls.user_from_session_id(session_id)
         return user
 

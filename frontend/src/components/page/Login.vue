@@ -66,7 +66,7 @@
 <script>
   import {validationMixin} from 'vuelidate'
   import {required} from 'vuelidate/lib/validators'
-  import loin from '../../api/login'
+  import loin from '../../api/auth'
 
   export default {
     name: 'login',
