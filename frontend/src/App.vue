@@ -12,6 +12,7 @@
         <div v-for="(item, i) in pages" :key="i">
           <v-list-tile
             :to="item.path"
+            v-if="item.show"
             exact
             ripple
           >
@@ -52,20 +53,26 @@
       return {
         clipped: false,
         drawer: null,
-        pages: [
+        title: '投票系统',
+      }
+    },
+    name: 'App',
+    computed: {
+      pages () {
+        return [
           {
             icon: 'bubble_chart',
             title: '首页',
             path: '/',
+            show: true,
           },
           {
             icon: 'exit_to_app',
             title: '登录',
             path: '/login',
-          }],
-        title: '投票系统',
-      }
+            show: !this.$store.state.isLogin,
+          }]
+      },
     },
-    name: 'App',
   }
 </script>

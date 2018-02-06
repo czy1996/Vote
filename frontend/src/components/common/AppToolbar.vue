@@ -13,7 +13,10 @@
         <v-icon>more_vert</v-icon>
       </v-btn>
       <v-list>
-        <v-list-tile v-show="true" @click="logout">
+        <v-list-tile v-show="true" @click="logout" avatar>
+          <v-list-tile-avatar>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-avatar>
           <v-list-tile-title>登出</v-list-tile-title>
         </v-list-tile>
       </v-list>

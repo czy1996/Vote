@@ -16,6 +16,13 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('@/components/page/Login'),
+    beforeEnter: (to, from, next) => {
+      if (store.state.isLogin) {
+        next({name: 'index'})
+      } else {
+        next()
+      }
+    },
   },
 ]
 

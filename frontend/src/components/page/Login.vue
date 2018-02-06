@@ -60,7 +60,7 @@
       </v-flex>
     </v-layout>
     <v-layout row justify-center>
-      <v-flex md8 xs12>
+      <v-flex md7 xs12>
         <v-card>
           <v-card-text>
             <h1>{{ $v.username.$dirty}}</h1>
