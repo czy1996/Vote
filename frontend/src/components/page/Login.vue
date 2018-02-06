@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md>
+  <v-container grid-list-md transition="slide-x-transition">
     <v-layout row justify-center>
       <v-flex md7 xs12>
 

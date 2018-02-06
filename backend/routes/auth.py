@@ -25,7 +25,5 @@ def login():
 @login_required
 def logout():
     session = current_session()
-    log('in logout', session)
     session.delete()
-    session.save()
     return json_response({'status': 'default'})

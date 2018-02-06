@@ -21,6 +21,7 @@ class User(BaseDocument):
         user = cls.get_by_name(data['username'])
         return user is not None and user.password == data['password']
 
+
 def test_user():
     user = User(username='chen', password='123')
     user.save()

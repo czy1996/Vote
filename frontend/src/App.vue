@@ -32,7 +32,9 @@
     ></app-toolbar>
     <v-content>
       <main>
-        <router-view/>
+        <transition name="slide-x-transition" mode="out-in">
+          <router-view/>
+        </transition>
       </main>
     </v-content>
     <v-footer app>
@@ -43,6 +45,7 @@
 
 <script>
   import AppToolbar from './components/common/AppToolbar'
+
   export default {
     components: {AppToolbar},
     data () {
