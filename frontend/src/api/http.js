@@ -10,9 +10,10 @@ instance.defaults.baseURL = '/api'
 
 instance.interceptors.request.use(
   config => {
-    if (store.state.token) {
+    if (store.state.sessionId) {
       config.headers.sessionId = `${store.state.sessionId}`
     }
+    console.log(config.headers)
     return config
   },
   err => {

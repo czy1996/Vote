@@ -18,6 +18,7 @@ def current_user():
 def current_session():
     headers = request.headers
     session_id = headers.get('sessionId', None)
+    log(session_id)
     if session_id is None:
         return None
     session = Session.objects(session_id=session_id).first()
