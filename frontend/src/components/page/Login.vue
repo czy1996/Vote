@@ -2,6 +2,7 @@
   <v-container grid-list-md>
     <v-layout row justify-center>
       <v-flex md7 xs12>
+
         <v-alert
           :color="alertColor"
           :icon="alertIcon"
@@ -9,7 +10,9 @@
           transition="scale-transition"
         >{{alertMessage}}
         </v-alert>
+
         <v-subheader>登录</v-subheader>
+
         <v-card>
           <v-card-text>
             <v-form>
@@ -22,6 +25,7 @@
                 :counter="10"
                 required
               ></v-text-field>
+
               <v-text-field
                 label="密码"
                 v-model="password"
@@ -32,7 +36,9 @@
                 :type="passwordType"
                 required
                 @keyup.enter="submit"
+                :error-messages="passwordErrors"
               ></v-text-field>
+
               <v-btn
                 @click="submit"
                 :disabled="$v.$invalid"
@@ -41,6 +47,7 @@
               >
                 submit
               </v-btn>
+
               <v-btn
                 @click="clear"
                 flat
@@ -49,6 +56,7 @@
             </v-form>
           </v-card-text>
         </v-card>
+
       </v-flex>
     </v-layout>
     <v-layout row justify-center>
@@ -100,6 +108,13 @@
         const errors = []
         if (!this.$v.username.$dirty) return errors
         !this.$v.username.required && errors.push('Name is required.')
+        return errors
+      },
+
+      passwordErrors () {
+        const errors = []
+        if (!this.$v.password.$dirty) return errors
+        !this.$v.password.required && errors.push('password is required.')
         return errors
       },
 

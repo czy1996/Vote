@@ -2,7 +2,6 @@
   <v-app>
     <v-navigation-drawer
       persistent
-      :mini-variant="miniVariant"
       :clipped="clipped"
       v-model="drawer"
       enable-resize-watcher
@@ -26,38 +25,30 @@
         </div>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      app
-      :clipped-left="clipped"
-      color="primary white--text"
-      dark
-    >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-toolbar>
+    <app-toolbar
+      :title="title"
+      :drawer.sync="drawer"
+      :clipped="clipped"
+    ></app-toolbar>
     <v-content>
       <main>
         <router-view/>
       </main>
     </v-content>
-    <v-footer :fixed="fixed" app>
+    <v-footer app>
       <span>&copy; 2018</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+  import AppToolbar from './components/common/AppToolbar'
   export default {
+    components: {AppToolbar},
     data () {
       return {
         clipped: false,
         drawer: null,
-        fixed: false,
-        items: [{
-          icon: 'bubble_chart',
-          title: '导航',
-        }],
         pages: [
           {
             icon: 'bubble_chart',
