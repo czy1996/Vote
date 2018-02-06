@@ -9,12 +9,12 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'HelloWorld',
+    name: 'index',
     component: HelloWorld,
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () => import('@/components/page/Login'),
   },
 ]

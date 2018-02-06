@@ -1,15 +1,11 @@
-import axios from './http'
+import instance from './http'
 import store from '../store/store'
 import * as types from '../store/types'
 
-const instance = axios.create({
-  baseURL: '/api/auth',
-})
-
 class Login {
   constructor () {
-    this.url_login = '/login'
-    this.url_logout = '/logout'
+    this.url_login = 'auth/login'
+    this.url_logout = 'auth/logout'
   }
 
   login (data) {

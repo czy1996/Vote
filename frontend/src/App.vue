@@ -60,9 +60,6 @@
             title: '登录',
             path: '/login',
           }],
-        miniVariant: false,
-        right: true,
-        rightDrawer: false,
         title: '投票系统',
       }
     },

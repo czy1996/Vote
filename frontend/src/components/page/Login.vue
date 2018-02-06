@@ -164,12 +164,25 @@
           this.$log(data)
           this.loginStatus = data.status
           this.isAlert = true
+          if (data.status === 'success') {
+            this.$router.replace({
+              name: 'index',
+            })
+          }
         })
       },
     },
 
     mounted () {
       // console.log(this.$v.$invalid)
+    },
+
+    beforeCreate () {
+      if (this.$store.state.isLogin) {
+        this.$router.replace({
+          name: 'index',
+        })
+      }
     },
   }
 </script>

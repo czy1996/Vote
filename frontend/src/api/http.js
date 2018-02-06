@@ -3,9 +3,12 @@ import store from '../store/store'
 import router from '../router'
 import * as types from '../store/types'
 
-axios.defaults.timeout = 5000
+const instance = axios.create()
 
-axios.interceptors.request.use(
+instance.defaults.timeout = 5000
+instance.defaults.baseURL = '/api'
+
+instance.interceptors.request.use(
   config => {
     if (store.state.token) {
       config.headers.sessionId = `${store.state.sessionId}`
@@ -17,7 +20,7 @@ axios.interceptors.request.use(
   }
 )
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   response => {
     return response
   },
@@ -26,6 +29,7 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           store.commit(types.LOGOUT)
+          console.log('in case 401')
           router.replace({
             path: 'login',
             query: {redirect: router.currentRoute.fullPath},
@@ -36,4 +40,4 @@ axios.interceptors.response.use(
   }
 )
 
-export default axios
+export default instance
