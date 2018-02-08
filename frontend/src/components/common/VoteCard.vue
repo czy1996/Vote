@@ -34,13 +34,19 @@
             </v-layout>
           </transition>
         </div>
+        <v-container>
+          <v-layout>
+            <v-flex md12 xs12>
+              <chart
+                theme="macarons"
+                :options="echartsOptions"
+                auto-resize
+                class="flex"
+              ></chart>
+            </v-flex>
+          </v-layout>
 
-        <v-layout>
-          <chart
-            theme="macarons"
-            :options="echartsOptions"
-          ></chart>
-        </v-layout>
+        </v-container>
       </v-container>
     </v-card-text>
   </v-card>
@@ -96,5 +102,9 @@
   .option-container {
     padding-right: 12px;
     padding-left: 12px;
+  }
+
+  .echarts {
+    width: 100%;
   }
 </style>
