@@ -77,10 +77,15 @@
         echartsOptions: {
           yAxis: {
             type: 'category',
+            axisTick: {show: false}, // 刻度
+            axisLine: {show: false}, // 轴线
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           },
           xAxis: {
             type: 'value',
+            axisTick: {show: false}, // 刻度
+            axisLine: {show: false}, // 轴线
+
           },
           series: [{
             data: [120, 200, 150, 80, 70, 110, 130],
