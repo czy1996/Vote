@@ -5,8 +5,14 @@ import App from './App'
 import router from './router'
 import store from './store/store'
 import Vuetify from 'vuetify'
+import ECharts from 'vue-echarts/components/ECharts'
 import Utils from './utils/utils'
 import 'vuetify/dist/vuetify.min.css'
+
+import 'echarts/lib/chart/bar'
+import 'echarts/theme/macarons'
+
+Vue.component('chart', ECharts)
 
 Vue.use(Vuetify, { theme: {
   primary: '#1976D2',

@@ -61,11 +61,7 @@
     </v-layout>
     <v-layout row justify-center>
       <v-flex md7 xs12>
-        <v-card>
-          <v-card-text>
-            <h1>{{ $v.username.$dirty}}</h1>
-          </v-card-text>
-        </v-card>
+        <vote-card></vote-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -75,8 +71,10 @@
   import {validationMixin} from 'vuelidate'
   import {required} from 'vuelidate/lib/validators'
   import loin from '../../api/auth'
+  import VoteCard from '../common/VoteCard'
 
   export default {
+    components: {VoteCard},
     name: 'login',
     mixins: [validationMixin],
     validations: {
@@ -92,6 +90,7 @@
         password: '',
         isAlert: false,
         loginStatus: 'fail',
+        op1Val: false,
       }
     },
 
@@ -173,20 +172,14 @@
       },
     },
 
-    mounted () {
-      // console.log(this.$v.$invalid)
-    },
-
-    beforeCreate () {
-      if (this.$store.state.isLogin) {
-        this.$router.replace({
-          name: 'index',
-        })
-      }
-    },
   }
 </script>
 
 <style scoped>
+
+
+  .option-bar {
+    /*margin: ;*/
+  }
 
 </style>
