@@ -17,7 +17,7 @@
               <v-checkbox
                 :label="option.name"
                 hide-details
-                v-model="option.value"
+                v-model="option.selected"
               ></v-checkbox>
             </v-flex>
             <template>
@@ -36,7 +36,7 @@
         </div>
         <v-container>
           <v-layout>
-            <v-flex md12 xs12>
+            <v-flex md12 xs12 class="chart-container">
               <chart
                 theme="macarons"
                 :options="echartsOptions"
@@ -63,36 +63,94 @@
           {
             id: 1,
             name: '看腻了',
-            value: false,
+            selected: false,
             description: '真不想看',
+            value: 90,
             isDes: false,
           },
           {
             id: 2,
             name: '没看腻',
-            value: false,
+            selected: false,
+            value: 70,
+            isDes: false,
+          },
+          {
+            id: 2,
+            name: '没看腻',
+            selected: false,
+            value: 70,
+            isDes: false,
+          },
+          {
+            id: 2,
+            name: '没看腻',
+            selected: false,
+            value: 70,
+            isDes: false,
+          },
+          {
+            id: 2,
+            name: '没看腻',
+            selected: false,
+            value: 70,
+            isDes: false,
+          },
+          {
+            id: 2,
+            name: '没看腻',
+            selected: false,
+            value: 70,
             isDes: false,
           },
         ],
-        echartsOptions: {
+
+      }
+    },
+
+    computed: {
+      echartsOptions () {
+        return {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+            },
+          },
+          grid: {
+            // x: 80,
+            y: 0,
+            height: 200,
+            // x2: 0,
+            y2: 0,
+          },
           yAxis: {
             type: 'category',
             axisTick: {show: false}, // 刻度
             axisLine: {show: false}, // 轴线
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            splitLine: {show: false}, // 网格线
+            data: this.options.map(op => op.name),
+            // max: 3,
           },
           xAxis: {
             type: 'value',
+            splitLine: {show: false}, // 网格线
             axisTick: {show: false}, // 刻度
             axisLine: {show: false}, // 轴线
 
           },
           series: [{
-            data: [120, 200, 150, 80, 70, 110, 130],
+            data: this.options.map(op => op.value),
             type: 'bar',
+            barMaxWidth: 40,
+            barCategoryGap: '50%',
+            label: {
+              show: true,
+              position: 'insideRight',
+            },
           }],
-        },
-      }
+        }
+      },
     },
 
     methods: {
@@ -111,5 +169,9 @@
 
   .echarts {
     width: 100%;
+  }
+
+  .chart-container {
+    height: 230px;
   }
 </style>
