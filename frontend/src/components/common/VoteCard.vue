@@ -3,6 +3,7 @@
     <v-card-title primary-title>
       <div class="headline">漫威的电影看腻了吗神马LSKJFLSDFLSDFJdasdf</div>
     </v-card-title>
+
     <v-card-text>
       <v-container fluid class="option-container">
         <div
@@ -18,6 +19,7 @@
                 :label="option.name"
                 hide-details
                 v-model="option.selected"
+                :disabled="submitted "
               ></v-checkbox>
             </v-flex>
             <template>
@@ -34,7 +36,8 @@
             </v-layout>
           </transition>
         </div>
-        <v-container>
+
+        <v-container v-if="submitted">
           <v-layout>
             <v-flex md12 xs12 class="chart-container">
               <chart
@@ -49,6 +52,12 @@
         </v-container>
       </v-container>
     </v-card-text>
+
+    <v-card-actions v-if="!submitted">
+      <v-btn flat color="primary" @click="submit">
+        提交
+      </v-btn>
+    </v-card-actions>
   </v-card>
 
 </template>
@@ -59,6 +68,7 @@
 
     data () {
       return {
+        submitted: false,
         options: [
           {
             id: 1,
@@ -75,34 +85,7 @@
             value: 70,
             isDes: false,
           },
-          {
-            id: 2,
-            name: '没看腻',
-            selected: false,
-            value: 70,
-            isDes: false,
-          },
-          {
-            id: 2,
-            name: '没看腻',
-            selected: false,
-            value: 70,
-            isDes: false,
-          },
-          {
-            id: 2,
-            name: '没看腻',
-            selected: false,
-            value: 70,
-            isDes: false,
-          },
-          {
-            id: 2,
-            name: '没看腻',
-            selected: false,
-            value: 70,
-            isDes: false,
-          },
+
         ],
 
       }
@@ -157,6 +140,10 @@
       toggleDescription (i) {
         this.options[i].isDes = !this.options[i].isDes
       },
+
+      submit () {
+        this.submitted = true
+      },
     },
   }
 </script>
@@ -169,9 +156,10 @@
 
   .echarts {
     width: 100%;
+    height: 230px;
   }
 
   .chart-container {
-    height: 230px;
+
   }
 </style>
