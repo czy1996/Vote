@@ -22,6 +22,10 @@ class BaseDocument(Document):
         s = '\n<{} \n  {}>'.format(name, '\n  '.join(properties))
         return s
 
+    @classmethod
+    def get_by_id(cls, _id):
+        return cls.objects(Id=_id).first()
+
 
 if __name__ == '__main__':
     pass
