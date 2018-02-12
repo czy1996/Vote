@@ -2,10 +2,12 @@ from flask import Flask, request
 from utils import log, json_response
 
 from routes.auth import main as auth_routes
+from routes.vote import main as vote_routes
 
 app = Flask(__name__)
 
 app.register_blueprint(auth_routes, url_prefix='/auth')
+app.register_blueprint(vote_routes, url_prefix='/vote')
 
 
 @app.route('/')

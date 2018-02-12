@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title primary-title>
-      <div class="headline">漫威的电影看腻了吗神马LSKJFLSDFLSDFJdasdf</div>
+      <div class="headline">{{title}}</div>
     </v-card-title>
 
     <v-card-text>
@@ -16,7 +16,7 @@
           >
             <v-flex>
               <v-checkbox
-                :label="option.name"
+                :label="option.title"
                 hide-details
                 v-model="option.selected"
                 :disabled="submitted "
@@ -63,31 +63,35 @@
 </template>
 
 <script>
+  import vote from '../../api/vote'
+
   export default {
     name: 'vote-card',
+
+    props: ['id'],
 
     data () {
       return {
         submitted: false,
+        title: '',
         options: [
-          {
-            id: 1,
-            name: '看腻了',
-            selected: false,
-            description: '真不想看',
-            value: 90,
-            isDes: false,
-          },
-          {
-            id: 2,
-            name: '没看腻',
-            selected: false,
-            value: 70,
-            isDes: false,
-          },
+          // {
+          //   id: 1,
+          //   name: '看腻了',
+          //   selected: false,
+          //   description: '真不想看',
+          //   value: 90,
+          //   isDes: false,
+          // },
+          // {
+          //   id: 2,
+          //   name: '没看腻',
+          //   selected: false,
+          //   value: 70,
+          //   isDes: false,
+          // },
 
         ],
-
       }
     },
 
@@ -112,7 +116,7 @@
             axisTick: {show: false}, // 刻度
             axisLine: {show: false}, // 轴线
             splitLine: {show: false}, // 网格线
-            data: this.options.map(op => op.name),
+            data: this.options.map(op => op.title),
             // max: 3,
           },
           xAxis: {
@@ -129,7 +133,7 @@
             barCategoryGap: '50%',
             label: {
               show: true,
-              position: 'insideRight',
+              position: 'right',  // 条上的数字
             },
           }],
         }
@@ -142,8 +146,40 @@
       },
 
       submit () {
-        this.submitted = true
+        let seletedOptions = this.options.filter(o => o.selected)
+        let data = {}
+        for (let option of seletedOptions) {
+          option.value += 1
+          data[option.id] = {
+            'inc': 1,
+          }
+        }
+        vote.optionInc(this.id, data).then(data => {
+          this.$log(data)
+          this.submitted = true
+        })
       },
+
+      loadVoteData () {
+        vote.getPublic(1).then(data => {
+          this.$log(data)
+          this.title = data.title
+          for (let i = 0; i < data.options.length; i++) {
+            this.$set(this.options, i, Object.assign(
+              {},
+              data.options[i],
+              {
+                isDes: false,
+                selected: false,
+              }))
+          }
+        })
+      },
+    },
+
+    mounted () {
+      this.$log('current id', this.id, typeof this.id)
+      this.loadVoteData()
     },
   }
 </script>

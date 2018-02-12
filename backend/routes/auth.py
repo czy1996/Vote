@@ -8,7 +8,7 @@ from . import current_user, current_session, login_required
 
 from utils import (json_response, log)
 
-main = Blueprint('login', __name__)
+main = Blueprint('auth', __name__)
 
 
 @main.route('/login', methods=['POST'])

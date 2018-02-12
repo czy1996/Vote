@@ -61,7 +61,7 @@
     </v-layout>
     <v-layout row justify-center>
       <v-flex md7 xs12>
-        <vote-card></vote-card>
+        <vote-card :id="1"></vote-card>
       </v-flex>
     </v-layout>
   </v-container>
