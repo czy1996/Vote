@@ -30,6 +30,18 @@ class Vote {
     })
   }
 
+  getPublicAll () {
+    return new Promise((resolve, reject) => {
+      instance.get(VOTE.GET_PUBLIC_ALL).then(
+        ({data}) => {
+          resolve(data)
+        },
+
+        err => reject(err)
+      )
+    })
+  }
+
   optionInc (voteId, obj) {
     let url = VOTE.PATCH_PUBLIC + voteId.toString()
 

@@ -13,6 +13,11 @@ const routes = [
     component: HelloWorld,
   },
   {
+    path: '/publicVotes',
+    name: 'publicVotes',
+    component: () => import('../../src/components/page/PublicVotes.vue'),
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/components/page/Login'),
@@ -22,7 +27,7 @@ const routes = [
       } else {
         next()
       }
-    },
+    },  // 登录状态下跳转到首页
   },
 ]
 

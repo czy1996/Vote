@@ -71,7 +71,14 @@
             title: '登录',
             path: '/login',
             show: !this.$store.state.isLogin,
-          }]
+          },
+          {
+            icon: 'view_agenda',
+            title: '公开的投票',
+            path: '/publicVotes',
+            show: true,
+          },
+        ]
       },
     },
   }

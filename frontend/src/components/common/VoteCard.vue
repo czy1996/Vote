@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="loaded">
     <v-card-title primary-title>
       <div class="headline">{{title}}</div>
     </v-card-title>
@@ -74,6 +74,7 @@
       return {
         submitted: false,
         title: '',
+        loaded: false,  // displayed after loaded
         options: [
           // {
           //   id: 1,
@@ -173,6 +174,7 @@
                 selected: false,
               }))
           }
+          this.loaded = true
         })
       },
     },
