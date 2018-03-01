@@ -15,9 +15,17 @@
     <div id="b64sig"
     >{{ b64sig }}
 
-    </div><div id="decrypted"
-    >{{ decrypted }} 解密
     </div>
+
+    <div id="decrypted"
+    >{{ blindDecrypted }} 盲化
+    </div>
+
+    <div id="unblinddecrypted"
+    >{{ unblindDecrypted }} 未盲化
+    </div>
+
+
   </v-container>
 
 </template>
@@ -33,7 +41,8 @@
         modulus: rsa.n,
         exponent: rsa.e,
         b64sig: rsa.b64sig,
-        decrypted: rsa.decrypted,
+        blindDecrypted: rsa.blindDecrypted,
+        unblindDecrypted: rsa.unblindDecrypted,
       }
     },
   }

@@ -22,9 +22,13 @@ const publicKey = '-----BEGIN PUBLIC KEY-----\n' +
   'yJKGh45h5ZA1pcWkoQIDAQAB\n' +
   '-----END PUBLIC KEY-----\n'
 
-const b64sig = 'vSHqKe9M9URC5ECLYNx4eYIjHZF44hIP1/+cQdyRNjhKCpkqjdcqGYMfIzQipAPoGD/gOv+BPUfa' +
-  'WDXKlv0WMUtj+b6lbuneT1MlaNCz3daDxTt/9iKBEDK/FwHTSkKVL/86kl+phe27Qi2bjWL6uclh' +
-  '30yFnV2SYt30PSCpUIg='
+// const blinded = 'hRLEmdDwW0Q/CDkKe1ep79cXiq4ygVRzjPQcpf9DCujWn91830wPCwi02Ki1c5cFI7vZCY+F7CkX' +
+//   'hz8I8w5hVi3EYM781xlV0OLUCMwAV4D/96M1UuJdptRnqayEpKH2gQRPY+cmm8eL4ceBsrhveyzk' +
+//   'G0ZWA0z5m1zenIG1pyk='
+//
+// const unblind = 'vSHqKe9M9URC5ECLYNx4eYIjHZF44hIP1/+cQdyRNjhKCpkqjdcqGYMfIzQipAPoGD/gOv+BPUfa' +
+//   'WDXKlv0WMUtj+b6lbuneT1MlaNCz3daDxTt/9iKBEDK/FwHTSkKVL/86kl+phe27Qi2bjWL6uclh' +
+//   '30yFnV2SYt30PSCpUIg='
 
 class RSA {
   constructor () {
@@ -33,8 +37,15 @@ class RSA {
     this.encrypt.setPublicKey(this.key)
     this.n = this.encrypt.getKey().n.intValue()
     this.e = this.encrypt.getKey().e
-    this.b64sig = b64sig
-    this.decrypted = this.encrypt.verify('Hello', this.b64sig)
+  }
+
+  blind (message) {
+    let b64str = this.encrypt.blind(message)
+    return b64str
+  }
+
+  verify (message, b64sig) {
+    return this.encrypt.verify(message, b64sig)
   }
 }
 
