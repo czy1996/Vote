@@ -29,6 +29,11 @@ const routes = [
       }
     },  // 登录状态下跳转到首页
   },
+  {
+    path: '/encrypt',
+    name: 'encypt',
+    component: () => import('@/components/page/Encrypt'),
+  },
 ]
 
 if (window.localStorage.getItem('sessionId')) {

@@ -78,6 +78,12 @@
             path: '/publicVotes',
             show: true,
           },
+          {
+            icon: 'view_agenda',
+            title: 'Encrypt',
+            path: '/encrypt',
+            show: true,
+          },
         ]
       },
     },
