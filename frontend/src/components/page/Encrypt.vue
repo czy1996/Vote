@@ -1,29 +1,47 @@
 <template>
   <v-container>
-    <div id="key"
-    >{{ publicKey }}
-    </div>
 
-    <div id="n"
-    >{{ modulus }}
-    </div>
+    <v-layout
+      row
+      justify-center
+    >
+      <v-flex xs12 md7>
+        <v-card>
+          <v-card-text>
+            <v-text-field
+              label="公钥"
+              textarea
+              disabled
+              v-model="publicKey"
+            >
+            </v-text-field>
 
-    <div id="e"
-    >{{ exponent }}
-    </div>
+            <v-text-field
+              label="签名"
+              textarea
+              disabled
+              v-model="b64sig"
+            >
+            </v-text-field>
 
-    <div id="b64sig"
-    >{{ b64sig }}
+            <div>
+              签名验证: {{isSigValid}}
+            </div>
 
-    </div>
+            <v-text-field
+              label="message"
+              v-model="message"
+            >
 
-    <div id="decrypted"
-    >{{ blindDecrypted }} 盲化
-    </div>
+            </v-text-field>
+          </v-card-text>
 
-    <div id="unblinddecrypted"
-    >{{ unblindDecrypted }} 未盲化
-    </div>
+          <v-card-actions>
+            <v-btn flat @click="sign">签名</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
 
 
   </v-container>
@@ -31,19 +49,32 @@
 </template>
 
 <script>
-  import rsa from '../../utils/rsa'
+  import RSAUtils from '../../utils/rsa'
+  import rsaApi from '../../api/rsa'
+
+  const rsa = new RSAUtils()
 
   export default {
     name: 'encrypt',
     data () {
       return {
         publicKey: rsa.key,
-        modulus: rsa.n,
-        exponent: rsa.e,
-        b64sig: rsa.b64sig,
-        blindDecrypted: rsa.blindDecrypted,
-        unblindDecrypted: rsa.unblindDecrypted,
+        message: '',
+        b64sig: null,
+        isSigValid: null,
       }
+    },
+    methods: {
+      sign () {
+        // this.$log('e bitlength', rsa.e.bitLength())
+        let blindMessage = rsa.blind(this.message)
+        this.$log('blindMessage', blindMessage)
+        rsaApi.sign(blindMessage).then(data => {
+          this.$log(data)
+          this.b64sig = data.signature
+          this.isSigValid = rsa.verify(this.message, data.signature)
+        })
+      },
     },
   }
 </script>

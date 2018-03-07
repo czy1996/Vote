@@ -9,3 +9,7 @@ export const VOTE = {
 
   GET_PUBLIC_ALL: '/vote/public/all',
 }
+
+export const RSA = {
+  SIGN: '/rsa/sign',
+}

@@ -1,283 +1,89 @@
-from random import randint, random
-import math
-import uuid
-
-
-# 判断一个数是否为素数
-def is_prime(n):
-    if n <= 3:
-        return n == 2 or n == 3
-    neg_one = n - 1
-
-    s, d = 0, neg_one
-    while not d & 1:
-        s, d = s + 1, d >> 1
-    assert 2 ** s * d == neg_one and d & 1
-
-    for i in range(30):
-        a = randint(2, neg_one)
-        x = pow(a, d, n)
-        if x in (1, neg_one):
-            continue
-        for r in range(1, s):
-            x = x ** 2 % n
-            if x == 1:
-                return False
-            if x == neg_one:
-                break
-        else:
-            return False
-    return True
-
-
-# 随机生成一个大的素数
-def rand_prime(N=10000):
-    p = 1
-    while not is_prime(p):
-        p = randint(N / 10, N)
-    return p
-
-
-# 取两个数的乘逆元
-def mod_inverse(a, b):
-    # r = -1
-    # B = b
-    # A = a
-    # eq_set = []
-    # full_set = []
-    # mod_set = []
-
-    # #euclid's algorithm
-    # while r!=1 and r!=0:
-    #     r = b%a
-    #     q = b//a
-    #     eq_set = [r, b, a, q*-1]
-    #     b = a
-    #     a = r
-    #     full_set.append(eq_set)
-
-    # for i in range(0, 4):
-    #     mod_set.append(full_set[-1][i])
-
-    # mod_set.insert(2, 1)
-    # counter = 0
-
-    # #extended euclid's algorithm
-    # for i in range(1, len(full_set)):
-    #     if counter%2 == 0:
-    #         mod_set[2] = full_set[-1*(i+1)][3]*mod_set[4]+mod_set[2]
-    #         mod_set[3] = full_set[-1*(i+1)][1]
-
-    #     elif counter%2 != 0:
-    #         mod_set[4] = full_set[-1*(i+1)][3]*mod_set[2]+mod_set[4]
-    #         mod_set[1] = full_set[-1*(i+1)][1]
-
-    #     counter += 1
-
-    # if mod_set[3] == B:
-    #     return mod_set[2]%B
-    # return mod_set[4]%B
-
-    mod = b
-    original_mod, before_mod = mod, mod
-    qs = []
-    while mod != 0:
-        if mod != before_mod:  # skip 1st run
-            # prepend rather than append so we can later just iterate over it
-            qs.insert(0, int(math.floor(a / mod)))
-        before_mod = mod
-        a, mod = mod, a % mod
-    if before_mod != 1:  # gcd(a, mod) is not 1, thus there is no modularinverse
-        raise ValueError
+from Crypto.Random import random
+from Crypto.PublicKey import RSA
+from Crypto.Util.number import long_to_bytes, bytes_to_long
+from uuid import uuid4
+import json
+import base64
+from binascii import hexlify
 
-    s, t, qs = 0, 1, qs[1:]
-    for q in qs:  # After the last run t is the solution
-        s, t = t, s - (q * t)
+import os
 
-    if t < 0:  # if t is < 0 add the modulo value to it so that it is in
-        # the correct range
-        t = original_mod + t
 
-    return t
+def get_private_key():
+    current_path = os.path.split(os.path.realpath(__file__))[0]
+    key_path = os.path.join(current_path, 'private.key')
+    with open(key_path) as f:
+        content = f.read()
+        # print(content)
+        return RSA.importKey(content)
 
 
-# 生成一对公钥私钥
-def gen_key():
-    p = rand_prime()
-    q = rand_prime()
-    rand = randint(2, 10)
+def decode_base64(data):
+    """Decode base64, padding being optional.
 
-    ed = (p - 1) * (q - 1) * rand + 1
+    :param data: Base64 data as an ASCII byte string
+    :returns: The decoded byte string.
 
-    for i in range(int(ed ** 0.5) + 1, 0, -1):
-        if ed % i == 0:
-            e = i
-            d = ed / i
-            break
+    """
+    missing_padding = len(data) % 4
+    if missing_padding != 0:
+        data += b'=' * (4 - missing_padding)
+    return base64.decodebytes(data)
 
-    n = p * q
 
-    pubkey = (n, e)
-    privkey = (p, q, d)
+def sign(message):
+    key = get_private_key()
 
-    return pubkey, privkey
+    # print('private key', key)
 
+    # print('blind message', hexlify(message))
 
-# 获取系统公钥私钥（如果已经生成过则直接用原来的）
-def get_key_pair():
-    open('pubkey', 'a')
-    open('privkey', 'a')
+    sig = key.sign(message, 0)
 
-    pubkey = open('pubkey').read()
-    privkey = open('privkey').read()
+    # print('sig', sig[0])
 
-    if pubkey and privkey:
-        n, e = pubkey.split()
-        p, q, d = privkey.split()
+    sig_in_bytes = long_to_bytes(sig[0])
 
-        n = int(n)
-        e = int(e)
-        p = int(p)
-        q = int(q)
-        d = int(d)
+    # print('sig in bytes', hexlify(sig_in_bytes))
 
-        pubkey = (n, e)
-        privkey = (p, q, d)
+    sig_in_b64 = base64.encodebytes(sig_in_bytes)
 
-    else:
-        pubkey, privkey = gen_key()
-        open('pubkey', 'w').write('%d %d' % pubkey)
-        open('privkey', 'w').write('%d %d %d' % privkey)
+    return sig_in_b64.decode()
 
-    return pubkey, privkey
 
+def unblind(b64sig, blind_factor):
+    key = get_private_key()
 
-# 杂凑函数
-def H(m, U):
-    return pow(m, U, 90) + 10
+    sig_in_bytes = base64.decodebytes(b64sig.encode())
 
+    sig_in_long = bytes_to_long(sig_in_bytes)
 
-# 计算出用户应该向投票委员会发送的C
-def get_C(m, U, R, pubkey):
-    n, e = pubkey
-    M = H(m, U)  # 杂凑
-    C = pow(R, e, n) * M % n  # 盲化
-
-    return C
-
-
-# 计算出投票委员会向用户返回的带上盲签名的T
-def get_T(C):
-    pubkey, privkey = get_key_pair()
-    n, e = pubkey
-    p, q, d = privkey
-
-    PinverseModQ = mod_inverse(p, q)
-    QinverseModP = mod_inverse(q, p)
-
-    m1 = pow(C, d, n) % p
-    m2 = pow(C, d, n) % q
-
-    T = (m1 * q * QinverseModP + m2 * p * PinverseModQ) % n
-
-    return T
-
-
-# 通过T计算出S
-def get_S(T, R, pubkey):
-    n, e = pubkey
-    return mod_inverse(R, n) * T % n
-
-
-# 用户验证签名有效性
-def verified_by_voter(m, U, S, pubkey):
-    n, e = pubkey
-    return pow(S, e, n) == H(m, U)
-
-
-# 投票委员会验证投票有效性
-def verified_by_admin(m, U, S):
-    pubkey, privkey = get_key_pair()
-    n, e = pubkey
-    p, q, d = privkey
-    return pow(H(m, U), d, n) == S
-
-
-# 获取到公钥私钥，公钥展示给所有投票者，私钥只有投票委员会知道
-pubkey, privkey = get_key_pair()
-n, e = pubkey
-p, q, d = privkey
-
-print('n, e:', pubkey)
-print('p, q, d:', privkey)
-
-
-def hash_and_blind(message: int):
-    U = uuid.uuid4().int
-    R = randint(2, 100)
-
-    hashed_message = get_C(message, U, R, pubkey)
-
-    return hashed_message, U, R
-
-
-def sign(message: int):
-    signed_blinded = get_T(message)
-
-    return signed_blinded
-
-
-def unblind(signed_blinded_message: int, blind_factor: int):
-    unblinded = get_S(signed_blinded_message, blind_factor, pubkey)
-
-    return unblinded
-
-
-def check_by_voter(original_message: int, hash_factor: int, signed_message: int, pubkey):
-    return verified_by_voter(original_message, hash_factor, signed_message, pubkey)
-
-
-def check_by_admin(original_message: int, hash_factor: int, signed_message: int):
-    return verified_by_admin(original_message, hash_factor, signed_message)
-
-
-def demo():
-    print('============= example ===================')
-
-    # 随机生成m投票内容 U随机整数用户杂凑 R随机整数致盲因子
-    m = randint(0, 100)
-    U = uuid.uuid4().int
-    R = randint(2, 100)
-
-    print('m:', m)
-    print('U:', U)
-    print('R:', R)
-
-    # 用户通过m U R 和已知的公钥,算出C,然后将C和自己的身份表示发送给投票委员会
-    C = get_C(m, U, R, pubkey)
-
-    print('C:', C)
-
-    # 投票委员会先通过用户身份标识判断用户是否有投票资格
-    # 如果有资格就通过将C和自己知道的公钥私钥一起计算,得到T,返回给用户
-    # 然后将该名用户标注为已投票
-    T = get_T(C)
-
-    print('T:', T)
-
-    # 用户得到T后利用之前的致盲因子进行“去盲”,计算出S
-    S = get_S(T, R, pubkey)
-
-    print('S:', S)
-
-    # 用户验证投票委员会签名的有效性,如果签名有效,下一步用户将匿名将(m, U, S)发送给投票委员会
-    print(verified_by_voter(m, U, S, pubkey))
-
-    # 投票委员会验证投票有效性,如果有效,则计入选票
-    print(verified_by_admin(m, U, S), pubkey, privkey)
-
-    print('=====================')
+    return key.unblind(sig_in_long, blind_factor)
 
 
 if __name__ == '__main__':
-    demo()
+
+    message = {
+        'vote_id': 1,
+        'option_id': 2,
+        'uuid4': uuid4().hex
+    }
+    message = json.dumps(message)
+    message = message.encode()
+    message = b'Hello'
+
+    key = get_private_key()
+
+    blind_factor = random.randrange(key.n >> 10, key.n)
+    blind_factor = 90
+    blinded_message = key.blind(message, blind_factor)
+    # print('blind message', hexlify(blinded_message))
+    signature = sign(blinded_message)
+    # print('b64sig', signature)
+    unblind_signature = unblind(signature, blind_factor)
+    # print('unblind sig', hexlify(long_to_bytes(unblind_signature)))
+
+    if key.verify(message, (unblind_signature,)):
+        print("OK")
+    else:
+        print("Incorrect signature")
