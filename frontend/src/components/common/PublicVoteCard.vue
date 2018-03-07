@@ -66,7 +66,7 @@
   import vote from '../../api/vote'
 
   export default {
-    name: 'vote-card',
+    name: 'public-vote-card',
 
     props: ['id'],
 
@@ -75,24 +75,7 @@
         submitted: false,
         title: '',
         loaded: false,  // displayed after loaded
-        options: [
-          // {
-          //   id: 1,
-          //   name: '看腻了',
-          //   selected: false,
-          //   description: '真不想看',
-          //   value: 90,
-          //   isDes: false,
-          // },
-          // {
-          //   id: 2,
-          //   name: '没看腻',
-          //   selected: false,
-          //   value: 70,
-          //   isDes: false,
-          // },
-
-        ],
+        options: [],
       }
     },
 

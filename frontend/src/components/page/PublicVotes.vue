@@ -7,7 +7,7 @@
       justify-center
     >
     <v-flex md7 xs12>
-      <vote-card :id="id"/>
+      <public-vote-card :id="id"/>
     </v-flex>
     </v-layout>
   </v-container>
@@ -15,9 +15,9 @@
 
 <script>
   import vote from '../../api/vote'
-  import VoteCard from '../common/VoteCard'
+  import PublicVoteCard from '../common/PublicVoteCard'
   export default {
-    components: {VoteCard},
+    components: {PublicVoteCard},
     name: 'public-votes',
     data () {
       return {

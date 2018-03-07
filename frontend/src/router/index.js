@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import store from '../store/store'
 import * as types from '../store/types'
 
@@ -10,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'index',
-    component: HelloWorld,
+    component: () => import('../components/HelloWorld'),
   },
   {
     path: '/publicVotes',
