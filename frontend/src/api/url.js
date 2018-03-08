@@ -1,6 +1,8 @@
 export const AUTH = {
   LOGIN: '/auth/login',
   LOGOUT: '/auth/logout',
+  REGISTER: '/auth/register',
+  CHECK_NAME: '/auth/checkUsername',
 }
 
 export const VOTE = {

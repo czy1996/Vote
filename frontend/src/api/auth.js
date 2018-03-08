@@ -29,6 +29,30 @@ class Login {
       )
     })
   }
+
+  register (data) {
+    return new Promise((resolve, reject) => {
+      instance.post(AUTH.REGISTER, data).then(
+        ({data}) => {
+          if (data.status === 'success') {
+            store.commit(types.LOGIN, data.session_id)
+          }
+          resolve(data)
+        },
+        err => reject(err),
+      )
+    })
+  }
+
+  isUniqueName (username) {
+    return new Promise((resolve, reject) => {
+      instance.get(AUTH.CHECK_NAME + `?username=${username}`).then(
+        ({data}) => {
+          resolve(data.isUnique)
+        }
+      )
+    })
+  }
 }
 
 export default new Login()

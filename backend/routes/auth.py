@@ -27,3 +27,23 @@ def logout():
     session = current_session()
     session.delete()
     return json_response({'status': 'default'})
+
+
+@main.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    log(data)
+    u = User(**data)
+    u.save()
+    session = Session.new(u)
+    return session.response()
+
+
+@main.route('/checkUsername')
+def check_username():
+    username = request.args.get('username', None)
+    users = User.objects
+    names = [user.username for user in users]
+    return json_response({
+        'isUnique': username is not None and username not in names,
+    })
