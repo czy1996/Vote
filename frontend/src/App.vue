@@ -84,6 +84,12 @@
             path: '/encrypt',
             show: true,
           },
+          {
+            icon: 'view_agenda',
+            title: '匿名投票',
+            path: '/encryptVote',
+            show: true,
+          },
         ]
       },
     },

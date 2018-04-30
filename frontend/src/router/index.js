@@ -33,6 +33,11 @@ const routes = [
     name: 'encypt',
     component: () => import('@/components/page/Encrypt'),
   },
+  {
+    path: '/encryptVote',
+    name: 'encypt',
+    component: () => import('@/components/page/EncryptVote'),
+  },
 ]
 
 if (window.localStorage.getItem('sessionId')) {
