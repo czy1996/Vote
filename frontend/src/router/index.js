@@ -35,8 +35,13 @@ const routes = [
   },
   {
     path: '/encryptVote',
-    name: 'encypt',
+    name: 'encryptVote',
     component: () => import('@/components/page/EncryptVote'),
+  },
+  {
+    path: '/createVote',
+    name: 'createVote',
+    component: () => import('@/components/page/CreateVote'),
   },
 ]
 

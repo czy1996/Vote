@@ -90,6 +90,12 @@
             path: '/encryptVote',
             show: true,
           },
+          {
+            icon: 'view_agenda',
+            title: '创建投票',
+            path: '/createVote',
+            show: this.$store.state.isLogin,
+          },
         ]
       },
     },
