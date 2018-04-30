@@ -86,7 +86,7 @@
           },
           {
             icon: 'view_agenda',
-            title: '匿名投票',
+            title: '提交匿名选票',
             path: '/encryptVote',
             show: true,
           },

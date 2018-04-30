@@ -44,8 +44,6 @@ class PublicVote(BaseVote):
 class BlindVote(BaseVote):
     isBlind = BooleanField(default=True)
 
-    
-
 
 # def test_init():
 #     v = PublicVote()
