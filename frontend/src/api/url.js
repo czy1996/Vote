@@ -10,6 +10,8 @@ export const VOTE = {
   PATCH_PUBLIC: '/vote/public/',
 
   GET_PUBLIC_ALL: '/vote/public/all',
+
+  POST_PRIVATE: '/vote/private/',
 }
 
 export const RSA = {

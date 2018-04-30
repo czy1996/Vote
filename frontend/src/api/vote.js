@@ -37,7 +37,7 @@ class Vote {
           resolve(data)
         },
 
-        err => reject(err)
+        err => reject(err),
       )
     })
   }
@@ -51,6 +51,17 @@ class Vote {
         obj,
       ).then(
         ({data}) => resolve(this.cleanData(data)),
+        err => reject(err),
+      )
+    })
+  }
+
+  postPrivate (obj) {
+    return new Promise((resolve, reject) => {
+      instance.post(VOTE.POST_PRIVATE, obj).then(
+        ({data}) => {
+          resolve(data)
+        },
         err => reject(err),
       )
     })

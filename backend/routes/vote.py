@@ -1,9 +1,8 @@
-from model.Vote import PublicVote
+from model.Vote import PublicVote, BlindVote, Option
 
 from flask import Blueprint, request
 
 from utils import json_response, log
-
 
 main = Blueprint('vote', __name__)
 
@@ -32,3 +31,16 @@ def get_public_vote_all():
         result.append(vote.Id)
     return json_response(result)
 
+
+@main.route('/private/', methods=['POST'])
+def post_private_vote():
+    data = request.json
+    log('vote private post', data)
+    v = BlindVote()
+    v.title = data['title']
+    for option in data['options']:
+        o = Option(title=option['title'])
+        v.options.append(o)
+    v.save()
+    v.reload()
+    return v.to_json()

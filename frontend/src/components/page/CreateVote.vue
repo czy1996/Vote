@@ -80,6 +80,7 @@
 </template>
 
 <script>
+  import vote from '../../api/vote'
   export default {
     name: 'create-vote',
     data () {
@@ -87,16 +88,20 @@
         numberOfOptions: 2,
         title: '',
         description: '',
-        options_helper: [
-          {
-            title: '',
-          },
-        ],
+        options_helper: [],
       }
     },
     methods: {
       submit () {
         this.$log('vote submit')
+        let data = {
+          title: this.title,
+          // description: this.description,
+          options: this.options,
+        }
+        vote.postPrivate(data).then(res => {
+          this.$log('vote submit response', res)
+        })
       },
     },
     computed: {
