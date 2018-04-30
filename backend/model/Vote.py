@@ -41,6 +41,12 @@ class PublicVote(BaseVote):
     isPublic = BooleanField(default=True)  # 公开的投票子类
 
 
+class BlindVote(BaseVote):
+    isBlind = BooleanField(default=True)
+
+    
+
+
 # def test_init():
 #     v = PublicVote()
 #     v.title = '看够漫威了吗'

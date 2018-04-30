@@ -37,5 +37,13 @@
     uuid4: xxxxxxx,
   }
   ```
+  - [ ]选票 JSON ->
+  - [x] 盲化 得到BASE64 ->
+  - [x] 发送签名 返回 BASE64 ->
+  - [x] 解盲, 校验
+  - [ ] 生成选票(明文选票 + 签名 BASE64)
+  - [ ] 发送明文 + 签名
+  - [ ] 返回 Tracking Number
+  - [ ] Tracking Number 用于查询选票记录
 
 
