@@ -80,6 +80,12 @@
           },
           {
             icon: 'view_agenda',
+            title: '匿名的投票',
+            path: '/blindVotes',
+            show: this.$store.state.isLogin,
+          },
+          {
+            icon: 'view_agenda',
             title: 'Encrypt',
             path: '/encrypt',
             show: true,

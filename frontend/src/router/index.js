@@ -17,6 +17,11 @@ const routes = [
     component: () => import('../../src/components/page/PublicVotes.vue'),
   },
   {
+    path: '/blindVotes',
+    name: 'blindVotes',
+    component: () => import('../../src/components/page/BlindVotes.vue'),
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/components/page/Login'),

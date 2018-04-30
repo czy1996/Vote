@@ -30,6 +30,29 @@ class Vote {
     })
   }
 
+  getBlindAll () {
+    return new Promise((resolve, reject) => {
+      instance.get(VOTE.GET_PRIVATE_ALL).then(
+        ({data}) => {
+          resolve(data)
+        },
+        err => reject(err),
+      )
+    })
+  }
+
+  getBlind (id) {
+    return new Promise((resolve, reject) => {
+      instance.get(VOTE.GET_PRIVATE + id.toString()).then(
+        ({data}) => {
+          resolve(this.cleanData(data))
+        },
+
+        err => reject(err),
+      )
+    })
+  }
+
   getPublicAll () {
     return new Promise((resolve, reject) => {
       instance.get(VOTE.GET_PUBLIC_ALL).then(

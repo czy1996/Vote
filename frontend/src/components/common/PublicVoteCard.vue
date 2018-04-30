@@ -144,8 +144,8 @@
         })
       },
 
-      loadVoteData () {
-        vote.getPublic(1).then(data => {
+      loadVoteData (id) {
+        vote.getPublic(id).then(data => {
           this.$log(data)
           this.title = data.title
           for (let i = 0; i < data.options.length; i++) {
@@ -164,7 +164,7 @@
 
     mounted () {
       this.$log('current id', this.id, typeof this.id)
-      this.loadVoteData()
+      this.loadVoteData(this.id)
     },
   }
 </script>

@@ -44,3 +44,18 @@ def post_private_vote():
     v.save()
     v.reload()
     return v.to_json()
+
+
+@main.route('/private/all', methods=['GET'])
+def get_private_all():
+    votes = BlindVote.objects
+    result = []
+    for vote in votes:
+        result.append(vote.Id)
+    return json_response(result)
+
+
+@main.route('/private/<int:vote_id>', methods=['GET'])
+def get_private_vote(vote_id):
+    v = BlindVote.get_by_id(vote_id)
+    return v.to_json()
