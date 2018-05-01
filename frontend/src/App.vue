@@ -91,19 +91,19 @@
             show: true,
           },
           {
-            icon: 'view_agenda',
+            icon: 'event',
             title: '提交匿名选票',
             path: '/encryptVote',
             show: true,
           },
           {
-            icon: 'view_agenda',
+            icon: 'description',
             title: '创建投票',
             path: '/createVote',
             show: this.$store.state.isLogin,
           },
           {
-            icon: 'view_agenda',
+            icon: 'receipt',
             title: '结果查询',
             path: '/voteBoard',
             show: true,
