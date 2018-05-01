@@ -111,15 +111,17 @@
 
       buildVoteData () {
         let seletedOptions = this.options.filter(o => o.selected)
+        this.$log('selected options', seletedOptions)
         let data = {}
         data.trackId = uuid4()
         data.voteId = this.id
+        data.options = {}
         for (let option of seletedOptions) {
           option.value += 1
-          data.options = {}
           data.options[option.id] = {
             'inc': 1,
           }
+          this.$log('buildVoteData', data)
         }
         return data
       },

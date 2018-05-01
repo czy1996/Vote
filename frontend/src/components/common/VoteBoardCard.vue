@@ -1,34 +1,30 @@
 <template>
+
   <v-card v-if="loaded">
-    <v-card-title primary-title>
-      <div class="headline">{{title}}</div>
+    <v-card-title>
+      {{title}}
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
     </v-card-title>
-
-    <v-card-text>
-      <v-container fluid class="option-container">
-        {{records}}
-
-        <v-container v-if="submitted">
-          <v-layout>
-            <v-flex md12 xs12 class="chart-container">
-              <chart
-                theme="macarons"
-                :options="echartsOptions"
-                auto-resize
-                class="flex"
-              ></chart>
-            </v-flex>
-          </v-layout>
-
-        </v-container>
-      </v-container>
-    </v-card-text>
-
-    <v-card-actions v-if="!submitted">
-      <v-btn flat color="primary" @click="submit">
-        提交
-      </v-btn>
-    </v-card-actions>
+    <v-data-table
+      :headers="headers"
+      :items="records"
+      :search="search"
+    >
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.trackId }}</td>
+        <td class="text-xs-right">{{ props.item.options }}</td>
+      </template>
+      <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        Your search for "{{ search }}" found no results.
+      </v-alert>
+    </v-data-table>
   </v-card>
 
 </template>
@@ -48,6 +44,19 @@
         loaded: false,  // displayed after loaded
         options: [],
         records: [],
+        search: '',
+        headers: [
+          {
+            text: 'Track ID',
+            align: 'left',
+            sortable: false,
+            value: 'trackId',
+          },
+          {
+            text: '选项',
+            value: 'options',
+          },
+        ],
       }
     },
 

@@ -100,7 +100,7 @@ def post_private_ticket():
 
 @main.route('/private/<int:vote_id>/record/all')
 def get_record_all(vote_id):
-    records = VoteRecord.objects
+    records = VoteRecord.get_records_by_vote_id(vote_id)
     result = []
     for r in records:
         result.append({
