@@ -68,7 +68,8 @@
         vote.postTicket(ticket).then(data => {
           this.$log('post ticket return', data)
           if (data.status === 'success') {
-            this.dialogTitle = '投票成功'
+            this.dialogTitle = '投票成功!请保存查询号码'
+            this.dialogMessage = data.trackId
           } else {
             this.dialogTitle = '投票失败'
             this.dialogMessage = data.err_message

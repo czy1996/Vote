@@ -66,6 +66,7 @@
   import vote from '../../api/vote'
   import RSAUtils from '../../utils/rsa'
   import rsaApi from '../../api/rsa'
+  import uuid4 from 'uuid4'
 
   const rsa = new RSAUtils()
 
@@ -111,6 +112,7 @@
       buildVoteData () {
         let seletedOptions = this.options.filter(o => o.selected)
         let data = {}
+        data.trackId = uuid4()
         data.voteId = this.id
         for (let option of seletedOptions) {
           option.value += 1

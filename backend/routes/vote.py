@@ -83,6 +83,7 @@ def post_private_ticket():
             vote.inc_options(int(k), v)
         res = {
             'status': 'success',
+            'trackId': m['trackId']
         }
     else:
         res = {
