@@ -14,7 +14,8 @@
 
             <v-text-field
               label="选票"
-              textarea
+              multi-line
+              rows="8"
               v-model="ticket"
             >
             </v-text-field>
@@ -29,14 +30,53 @@
       </v-flex>
     </v-layout>
 
+    <v-dialog v-model="dialog" persistent max-width="500">
+      <v-card>
+        <v-card-title class="headline">{{dialogTitle}}</v-card-title>
+        <v-card-text>
+          {{dialogMessage}}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click.native="dialog = false">确定</v-btn>
+        </v-card-actions>
+      </v-card>
+
+    </v-dialog>
+
 
   </v-container>
 
 </template>
 
 <script>
+  import vote from '../../api/vote'
+
   export default {
     name: 'encrypt-vote',
+    data () {
+      return {
+        ticket: '',
+        dialogTitle: '',
+        dialogMessage: '',
+        dialog: false,
+      }
+    },
+    methods: {
+      submit () {
+        let ticket = JSON.parse(this.ticket)
+        vote.postTicket(ticket).then(data => {
+          this.$log('post ticket return', data)
+          if (data.status === 'success') {
+            this.dialogTitle = '投票成功'
+          } else {
+            this.dialogTitle = '投票失败'
+            this.dialogMessage = data.err_message
+          }
+          this.dialog = true
+        })
+      },
+    },
   }
 </script>
 

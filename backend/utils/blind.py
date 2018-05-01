@@ -63,7 +63,9 @@ def unblind(b64sig, blind_factor):
 
 def verify(message, unblinded_signature):
     key = get_private_key()
-    return key.verify(message, unblinded_signature)
+    if isinstance(unblinded_signature, bytes):
+        unblinded_signature = bytes_to_long(unblinded_signature)
+    return key.verify(message, (unblinded_signature,))
 
 
 if __name__ == '__main__':
@@ -88,7 +90,7 @@ if __name__ == '__main__':
     unblind_signature = unblind(signature, blind_factor)
     # print('unblind sig', hexlify(long_to_bytes(unblind_signature)))
 
-    if key.verify(message, (unblind_signature,)):
+    if verify(message, unblind_signature):
         print("OK")
     else:
         print("Incorrect signature")

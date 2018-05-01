@@ -14,6 +14,8 @@ export const VOTE = {
   POST_PRIVATE: '/vote/private/',
   GET_PRIVATE_ALL: '/vote/private/all',
   GET_PRIVATE: '/vote/private/',
+
+  POST_PRIVATE_TICKET: '/vote/private/ticket',
 }
 
 export const RSA = {

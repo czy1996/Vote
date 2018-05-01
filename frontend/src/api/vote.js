@@ -89,6 +89,18 @@ class Vote {
       )
     })
   }
+
+  postTicket (obj) {
+    console.log('post ticket', obj)
+    return new Promise((resolve, reject) => {
+      instance.post(VOTE.POST_PRIVATE_TICKET, obj).then(
+        ({data}) => {
+          resolve(data)
+        },
+        err => reject(err),
+      )
+    })
+  }
 }
 
 export default new Vote()

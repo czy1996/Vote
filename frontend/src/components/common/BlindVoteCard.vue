@@ -114,7 +114,8 @@
         data.voteId = this.id
         for (let option of seletedOptions) {
           option.value += 1
-          data[option.id] = {
+          data.options = {}
+          data.options[option.id] = {
             'inc': 1,
           }
         }

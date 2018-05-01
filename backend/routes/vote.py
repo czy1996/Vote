@@ -3,6 +3,9 @@ from model.Vote import PublicVote, BlindVote, Option
 from flask import Blueprint, request
 
 from utils import json_response, log
+from utils.blind import decode_base64, verify
+
+import json
 
 main = Blueprint('vote', __name__)
 
@@ -59,3 +62,32 @@ def get_private_all():
 def get_private_vote(vote_id):
     v = BlindVote.get_by_id(vote_id)
     return v.to_json()
+
+
+@main.route('/private/ticket', methods=['POST'])
+def post_private_ticket():
+    data = request.json
+    message = data['message']
+    signature = data['signature']
+    log('message', message.encode())
+    signature = decode_base64(signature.encode('utf-8'))
+    log('signature', signature)
+
+    is_valid = verify(message.encode(), signature)
+
+    if is_valid is True:
+        m = json.loads(message)
+        vote_id = m['voteId']
+        vote = BlindVote.get_by_id(vote_id)
+        for k, v in m['options'].items():
+            vote.inc_options(int(k), v)
+        res = {
+            'status': 'success',
+        }
+    else:
+        res = {
+            'status': 'fail',
+            'err_message': '选票无效'
+        }
+
+    return json_response(res)

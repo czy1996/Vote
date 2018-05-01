@@ -52,7 +52,7 @@ class RSAUtils {
   }
 
   unblind (b64sig) {
-    return this.encrypt.unblind(b64sig)
+    return this.encrypt.unblindB64Sig(b64sig)
   }
 }
 
