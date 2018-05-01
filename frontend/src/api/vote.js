@@ -101,6 +101,30 @@ class Vote {
       )
     })
   }
+
+  getPrivate (id) {
+    return new Promise((resolve, reject) => {
+      instance.get(VOTE.GET_PRIVATE + id.toString()).then(
+        ({data}) => {
+          resolve(this.cleanData(data))
+        },
+
+        err => reject(err),
+      )
+    })
+  }
+
+  getRecordsAll (id) {
+    let url = VOTE.GET_PRIVATE + id.toString() + '/record/all'
+    return new Promise((resolve, reject) => {
+      instance.get(url).then(
+        ({data}) => {
+          resolve(data)
+        },
+        err => reject(err),
+      )
+    })
+  }
 }
 
 export default new Vote()

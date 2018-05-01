@@ -1,4 +1,4 @@
-from model.Vote import PublicVote, BlindVote, Option
+from model.Vote import PublicVote, BlindVote, Option, VoteRecord
 
 from flask import Blueprint, request
 
@@ -79,12 +79,16 @@ def post_private_ticket():
         m = json.loads(message)
         vote_id = m['voteId']
         vote = BlindVote.get_by_id(vote_id)
+        record = VoteRecord(vote=vote, track_id=m['trackId'])
         for k, v in m['options'].items():
             vote.inc_options(int(k), v)
+            record.options.append(vote.get_option_by_id(int(k)))
         res = {
             'status': 'success',
             'trackId': m['trackId']
         }
+        record.save()
+
     else:
         res = {
             'status': 'fail',
@@ -92,3 +96,15 @@ def post_private_ticket():
         }
 
     return json_response(res)
+
+
+@main.route('/private/<int:vote_id>/record/all')
+def get_record_all(vote_id):
+    records = VoteRecord.objects
+    result = []
+    for r in records:
+        result.append({
+            'trackId': r.track_id,
+            'options': [option.title for option in r.options]
+        })
+    return json_response(result)

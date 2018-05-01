@@ -102,6 +102,12 @@
             path: '/createVote',
             show: this.$store.state.isLogin,
           },
+          {
+            icon: 'view_agenda',
+            title: '结果查询',
+            path: '/voteBoard',
+            show: true,
+          },
         ]
       },
     },

@@ -5,7 +5,8 @@ from mongoengine import (SequenceField,
                          EmbeddedDocumentListField,
                          EmbeddedDocument,
                          IntField,
-                         BooleanField, )
+                         BooleanField,
+                         ReferenceField, )
 
 
 class Option(EmbeddedDocument):
@@ -43,6 +44,19 @@ class PublicVote(BaseVote):
 
 class BlindVote(BaseVote):
     isBlind = BooleanField(default=True)
+
+
+class VoteRecord(BaseDocument):
+    Id = SequenceField()
+    vote = ReferenceField(BlindVote)
+    options = EmbeddedDocumentListField(Option, default=list)
+    track_id = StringField(required=True)
+
+    @classmethod
+    def get_records_by_vote_id(cls, vote_id):
+        vote = BlindVote.get_by_id(vote_id)
+        records = cls.objects(vote=vote)
+        return records
 
 
 # def test_init():
