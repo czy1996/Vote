@@ -61,6 +61,11 @@ def unblind(b64sig, blind_factor):
     return key.unblind(sig_in_long, blind_factor)
 
 
+def verify(message, unblinded_signature):
+    key = get_private_key()
+    return key.verify(message, unblinded_signature)
+
+
 if __name__ == '__main__':
 
     message = {

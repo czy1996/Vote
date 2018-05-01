@@ -129,7 +129,7 @@
         this.options[i].isDes = !this.options[i].isDes
       },
 
-      submit () {
+      buildVoteData () {
         let seletedOptions = this.options.filter(o => o.selected)
         let data = {}
         for (let option of seletedOptions) {
@@ -138,6 +138,11 @@
             'inc': 1,
           }
         }
+        return data
+      },
+
+      submit () {
+        let data = this.buildVoteData()
         vote.optionInc(this.id, data).then(data => {
           this.$log(data)
           this.submitted = true

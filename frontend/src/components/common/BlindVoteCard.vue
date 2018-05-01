@@ -37,19 +37,19 @@
           </transition>
         </div>
 
-        <!--<v-container v-if="submitted">-->
-        <!--<v-layout>-->
-        <!--<v-flex md12 xs12 class="chart-container">-->
-        <!--<chart-->
-        <!--theme="macarons"-->
-        <!--:options="echartsOptions"-->
-        <!--auto-resize-->
-        <!--class="flex"-->
-        <!--&gt;</chart>-->
-        <!--</v-flex>-->
-        <!--</v-layout>-->
+        <v-dialog v-model="dialog" persistent max-width="500">
+          <v-card>
+            <v-card-title class="headline">{{verifyStatus}}</v-card-title>
+            <v-card-text>
+              {{verifyMessage}}
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn flat @click.native="dialog = false">确定</v-btn>
+            </v-card-actions>
+          </v-card>
 
-        <!--</v-container>-->
+        </v-dialog>
       </v-container>
     </v-card-text>
 
@@ -64,6 +64,10 @@
 
 <script>
   import vote from '../../api/vote'
+  import RSAUtils from '../../utils/rsa'
+  import rsaApi from '../../api/rsa'
+
+  const rsa = new RSAUtils()
 
   export default {
     name: 'blind-vote-card',
@@ -76,6 +80,9 @@
         title: '',
         loaded: false,  // displayed after loaded
         options: [],
+        dialog: false,
+        verifyStatus: '',
+        verifyMessage: '',
       }
     },
 
@@ -101,8 +108,41 @@
         })
       },
 
-      submit () {
+      buildVoteData () {
+        let seletedOptions = this.options.filter(o => o.selected)
+        let data = {}
+        data.voteId = this.id
+        for (let option of seletedOptions) {
+          option.value += 1
+          data[option.id] = {
+            'inc': 1,
+          }
+        }
+        return data
+      },
 
+      submit () {
+        let data = this.buildVoteData()
+        let dataMessage = JSON.stringify(data)
+        let blindedMessage = rsa.blind(dataMessage)
+        rsaApi.sign(blindedMessage).then(data => {
+          this.$log(data)
+          this.b64sig = data.signature
+          this.isSigValid = rsa.verify(dataMessage, data.signature)
+          if (this.isSigValid) {
+            this.verifyStatus = '签名成功!请妥善保存以下选票信息'
+
+            let result = {}
+            result.message = dataMessage
+            result.signature = rsa.unblind(this.b64sig)
+            this.verifyMessage = `${JSON.stringify(result)}
+            `
+          } else {
+            this.verifyStatus = '签名失败'
+            this.verifyMessage = '选举委员会可能存在欺诈！'
+          }
+          this.dialog = true
+        })
       },
     },
 

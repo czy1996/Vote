@@ -50,6 +50,10 @@ class RSAUtils {
   verify (message, b64sig) {
     return this.encrypt.verify(message, b64sig)
   }
+
+  unblind (b64sig) {
+    return this.encrypt.unblind(b64sig)
+  }
 }
 
 export default RSAUtils
