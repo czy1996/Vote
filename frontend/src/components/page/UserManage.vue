@@ -77,6 +77,7 @@
     name: 'user-manage',
     data () {
       return {
+        dialog: false,
         search: '',
         headers: [
           {
@@ -120,6 +121,12 @@
         user.getAll().then(users => {
           this.users = users
         })
+      },
+      save () {
+        this.close()
+      },
+      close () {
+        this.dialog = false
       },
     },
     mounted () {
