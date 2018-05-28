@@ -108,6 +108,12 @@
             path: '/voteBoard',
             show: true,
           },
+          {
+            icon: 'people',
+            title: '用户管理',
+            path: '/userManage',
+            show: true,
+          },
         ]
       },
     },

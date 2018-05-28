@@ -21,3 +21,7 @@ export const VOTE = {
 export const RSA = {
   SIGN: '/rsa/sign',
 }
+
+export const USER = {
+  GET_USER_ALL: '/user/all',
+}

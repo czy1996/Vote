@@ -7,6 +7,7 @@ from mongoengine import (SequenceField,
                          IntField,
                          BooleanField,
                          ReferenceField, )
+from .User import User
 
 
 class Option(EmbeddedDocument):
@@ -23,6 +24,7 @@ class BaseVote(BaseDocument):
     Id = SequenceField()
     title = StringField(required=True)
     options = EmbeddedDocumentListField(Option, default=list)
+    owner = ReferenceField(User)
 
     meta = {
         'allow_inheritance': True,  # 允许继承
