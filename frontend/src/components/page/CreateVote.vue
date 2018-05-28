@@ -15,7 +15,7 @@
                   label="投票标题"
                   id="id-input-title"
                   v-model="title"
-                ></v-text-field>
+                />
               </v-flex>
             </v-layout>
             <v-layout row>
@@ -29,7 +29,22 @@
                   multi-line
                   rows="3"
                   v-model="description"
-                ></v-text-field>
+                />
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs4>
+                <v-subheader>开始时间</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+
+              </v-flex>
+            </v-layout><v-layout row>
+              <v-flex xs4>
+                <v-subheader>结束时间</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+
               </v-flex>
             </v-layout>
             <v-layout row>
@@ -43,7 +58,7 @@
                   v-model.number="numberOfOptions"
                   type="number"
                   min="0"
-                ></v-text-field>
+                />
               </v-flex>
             </v-layout>
             <v-layout row>
@@ -58,7 +73,7 @@
                     <v-text-field
                       :label="'选项'+ (i + 1)"
                       v-model="option.title"
-                    ></v-text-field>
+                    />
                   </v-flex>
 
                 </v-layout>
