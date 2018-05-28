@@ -112,7 +112,13 @@
             icon: 'people',
             title: '用户管理',
             path: '/userManage',
-            show: true,
+            show: this.$store.state.isLogin,
+          },
+          {
+            icon: 'folder',
+            title: '投票管理',
+            path: '/voteManage',
+            show: this.$store.state.isLogin,
           },
         ]
       },

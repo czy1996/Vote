@@ -58,6 +58,11 @@ const routes = [
     name: 'userManage',
     component: () => import('@/components/page/UserManage'),
   },
+  {
+    path: '/voteManage',
+    name: 'voteManage',
+    component: () => import('@/components/page/voteManage'),
+  },
 ]
 
 if (window.localStorage.getItem('sessionId')) {
