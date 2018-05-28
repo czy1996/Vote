@@ -68,6 +68,29 @@
                   </v-date-picker>
                 </v-menu>
               </v-flex>
+              <v-flex xs3>
+                <v-menu
+                  lazy
+                  :close-on-content-click="false"
+                  v-model="menuTimeStart"
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  :nudge-right="40"
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    label="开始时刻"
+                    v-model="timeStart"
+                    prepend-icon="access_time"
+                    readonly
+                  />
+                  <v-time-picker v-model="timeStart" autosave/>
+                </v-menu>
+
+              </v-flex>
             </v-layout>
             <v-layout id="layout-time-end" row>
               <v-flex xs4>
@@ -104,6 +127,29 @@
                     <v-btn flat color="primary" @click="$refs.menuDateEnd.save(dateEnd)">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
+              </v-flex>
+              <v-flex xs3>
+                <v-menu
+                  lazy
+                  :close-on-content-click="false"
+                  v-model="menuTimeEnd"
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  :nudge-right="40"
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    label="结束时刻"
+                    v-model="timeEnd"
+                    prepend-icon="access_time"
+                    readonly
+                  />
+                  <v-time-picker v-model="timeEnd" autosave/>
+                </v-menu>
+
               </v-flex>
             </v-layout>
             <v-layout id="layout-number-of-options" row>
@@ -168,6 +214,11 @@
         dateEnd: null,
         menuDateStart: false,
         menuDateEnd: false,
+        menuTimeStart: false,
+        menuTimeEnd: false,
+        timeStart: null,
+        timeEnd: null,
+
       }
     },
     methods: {
