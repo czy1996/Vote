@@ -26,15 +26,17 @@
                 <v-container grid-list-md>
                   <v-layout wrap>
                     <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                      <v-text-field v-model="editedItem.username" label="用户名"></v-text-field>
+                      <v-text-field v-model="editedItem.password" label="密码"></v-text-field>
+
                     </v-flex>
                   </v-layout>
                 </v-container>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+                <v-btn color="blue darken-1" flat @click.native="close">取消</v-btn>
+                <v-btn color="blue darken-1" flat @click.native="save">保存</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
