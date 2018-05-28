@@ -60,7 +60,7 @@
                     v-model="dateStart"
                     no-title
                     scrollable
-                    v-bind:min="today"
+                    :allowed-dates="{min: today}"
                   >
                     <v-spacer/>
                     <v-btn flat color="primary" @click="menuDateStart = false">Cancel</v-btn>
@@ -97,7 +97,7 @@
                     v-model="dateEnd"
                     no-title
                     scrollable
-                    v-bind:min="today"
+                    :allowed-dates="{min: today}"
                   >
                     <v-spacer/>
                     <v-btn flat color="primary" @click="menuDateEnd = false">Cancel</v-btn>
