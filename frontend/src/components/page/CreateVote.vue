@@ -4,8 +4,7 @@
       <v-flex xs12 md7>
         <v-card>
           <v-card-text>
-            <v-layout row>
-
+            <v-layout id="layout-title" row>
               <v-flex xs4>
                 <v-subheader>投票标题</v-subheader>
               </v-flex>
@@ -18,7 +17,7 @@
                 />
               </v-flex>
             </v-layout>
-            <v-layout row>
+            <v-layout id="layout-description" row>
               <v-flex xs4>
                 <v-subheader>描述</v-subheader>
               </v-flex>
@@ -30,6 +29,17 @@
                   rows="3"
                   v-model="description"
                 />
+              </v-flex>
+            </v-layout>
+            <v-layout id="layout-ispublic" row>
+              <v-flex xs4>
+                <v-subheader>投票类型</v-subheader>
+              </v-flex>
+              <v-flex>
+                <v-radio-group v-model="voteType" :mandatory="true" row>
+                  <v-radio label="公开" value="public"/>
+                  <v-radio label="私密" value="private"/>
+                </v-radio-group>
               </v-flex>
             </v-layout>
             <v-layout id="layout-time-start" row>
@@ -218,7 +228,7 @@
         menuTimeEnd: false,
         timeStart: null,
         timeEnd: null,
-
+        voteType: 'private',
       }
     },
     methods: {
